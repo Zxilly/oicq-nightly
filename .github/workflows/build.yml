@@ -5,11 +5,11 @@ on:
   schedule:
     - cron: '43 0 * * *'
 
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    permissions: write-all
+permissions: write-all
 
+jobs:
+  publish-package:
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -24,7 +24,7 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
 
     - name: Install global dependencies
-      run: sudo apt install moreutils jq
+      run: sudo apt install moreutils
 
     - name: Setup Github Packages
       run: |
@@ -45,9 +45,71 @@ jobs:
         # workaround for temporary bug in oicq
         set +e
         tsc
+        npm pack
         set -e
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: oicq
+        path: oicq-*.tgz
 
     - name: Publish to Github Packages
       run: npm publish --access public --registry https://npm.pkg.github.com
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  publish-branch:
+    runs-on: ubuntu-latest
+    needs: publish-package
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        path: git-repo
+
+    - name: Setup Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Get artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: oicq
+        path: oicq
+    
+    - name: Extract artifact
+      working-directory: oicq
+      run: |
+        tar -xzf oicq-*.tgz
+        rm oicq-*.tgz
+
+    - name: Cleanup and create
+      working-directory: git-repo
+      run: |
+        if git rev-parse --verify publish > /dev/null 2>&1; then
+          git branch -D publish
+        fi
+        git switch --orphan publish
+        cp -r ../oicq/* .
+        git add .
+        git commit -m "Publish"
+        git push -f origin publish
+
+        VERSION_STRING=$(jq -r ".version" package.json)
+        VERSION_BRANCH="publish-${VERSION_STRING}"
+        # if branch not exist
+        if ! git rev-parse --verify $VERSION_BRANCH > /dev/null 2>&1; then
+          cp -r ../oicq/* .
+          git add .
+          git commit -m "Publish $VERSION_STRING"
+          git push -f origin $VERSION_BRANCH
+        fi
+
+
+
+        
+
+        
