@@ -144,6 +144,10 @@ jobs:
         title: "Publish ${{ steps.get_version.outputs.version }}"
         files: "oicq/oicq-*.tgz"
 
+    - name: Rename file
+      run: |
+        mv oicq/oicq-*.tgz oicq/oicq.tgz
+
     - name: Create release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -151,7 +155,7 @@ jobs:
         automatic_release_tag: "latest"
         prerelease: false
         title: "Publish ${{ steps.get_version.outputs.version }}"
-        files: "oicq/oicq-*.tgz"
+        files: "oicq/oicq.tgz"
     
 
 
