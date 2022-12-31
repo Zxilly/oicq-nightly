@@ -22,6 +22,9 @@ npm install github:Zxilly/oicq-nightly#publish-2.3.1-30f2c56
 
 ### Github Packages
 
+> 由于 GitHub Packages 的限制，你现在应该从 `@zxilly/oicq` 导入，而不是 `oicq`。
+由于此限制，Github Packages 渠道不被推荐。
+
 项目根目录创建文件 `.npmrc`，内容如下：
 
 ```npmrc

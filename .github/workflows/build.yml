@@ -59,7 +59,7 @@ jobs:
         npm install
 
     - name: Publish to Github Packages
-      run: npx can-npm-publish --yes --verbose && npm publish --access public --registry https://npm.pkg.github.com
+      run: npx can-npm-publish --yes --verbose && npm publish --access public --registry https://npm.pkg.github.com || echo "::notice::Already published to Github Packages"
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
