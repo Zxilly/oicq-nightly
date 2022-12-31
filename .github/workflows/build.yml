@@ -33,6 +33,7 @@ jobs:
         OLD_VERSION=$(jq -r ".version" package.json)
         NEW_VERSION="${OLD_VERSION}-$COMMIT_SHA"
         jq ".version |= \"$NEW_VERSION\"" package.json | sponge package.json
+        jq ".name |= \"@zxilly/oicq-nightly\"" package.json | sponge package.json
 
     - name: Install project dependencies
       run: |
