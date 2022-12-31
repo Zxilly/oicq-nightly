@@ -115,7 +115,7 @@ jobs:
   
   publish-release:
     runs-on: ubuntu-latest
-    needs: publish-branch
+    needs: publish-package
     steps:
     - name: Get artifact
       uses: actions/download-artifact@v3
