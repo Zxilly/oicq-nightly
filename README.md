@@ -6,6 +6,19 @@
 
 ## 使用方法
 
+### publish-x 分支
+
+`publish` 分支是每夜构建的最新版本
+
+```bash
+npm install github:Zxilly/oicq-nightly#publish
+```
+
+如果你想使用特定的构建版本，可以使用 `publish-x.x.x-<hash>` 分支，其中 `x.x.x` 为构建版本号，`<hash>` 为 oicq 构建的 commit hash。
+
+```bash
+npm install github:Zxilly/oicq-nightly#publish-2.3.1-30f2c56
+```
 
 ### Github Packages
 
@@ -25,20 +38,6 @@ npm login --registry=https://npm.pkg.github.com
 
 ```bash
 npm install @zxilly/oicq
-```
-
-### publish-x 分支
-
-`publish` 分支是每夜构建的最新版本
-
-```bash
-npm install github:Zxilly/oicq-nightly#publish
-```
-
-如果你想使用特定的构建版本，可以使用 `publish-x.x.x-<hash>` 分支，其中 `x.x.x` 为构建版本号，`<hash>` 为 oicq 构建的 commit hash。
-
-```bash
-npm install github:Zxilly/oicq-nightly#publish-2.3.1-30f2c56
 ```
 
 ## 关于

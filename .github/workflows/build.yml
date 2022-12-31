@@ -33,7 +33,6 @@ jobs:
         OLD_VERSION=$(jq -r ".version" package.json)
         NEW_VERSION="${OLD_VERSION}-$COMMIT_SHA"
         jq ".version |= \"$NEW_VERSION\"" package.json | sponge package.json
-        jq ".name |= \"@zxilly/oicq\"" package.json | sponge package.json
 
     - name: Install project dependencies
       run: |
@@ -45,17 +44,22 @@ jobs:
         # workaround for temporary bug in oicq
         set +e
         tsc
-        npm pack
         set -e
+        npm pack
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: oicq
-        path: zxilly-oicq-*.tgz
+        path: oicq-*.tgz
+
+    - name: Update name
+      run: |
+        jq ".name |= \"@zxilly/oicq\"" package.json | sponge package.json # Github Packages limit
+        npm install
 
     - name: Publish to Github Packages
-      run: npm publish --access public --registry https://npm.pkg.github.com || true # version may duplicate, just ignore
+      run: npx can-npm-publish --yes --verbose && npm publish --access public --registry https://npm.pkg.github.com
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
@@ -83,8 +87,8 @@ jobs:
     - name: Extract artifact
       working-directory: oicq
       run: |
-        tar -xzf zxilly-oicq-*.tgz
-        rm zxilly-oicq-*.tgz
+        tar -xzf oicq-*.tgz
+        rm oicq-*.tgz
     
     - name: Cleanup and create
       working-directory: git-repo
