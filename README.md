@@ -1,2 +1,2 @@
 # oicq-nightly
-Compile oicq nightly build and release it to github package
+Compile [oicq](https://github.com/takayama-lily/oicq) nightly build and release it to github package
