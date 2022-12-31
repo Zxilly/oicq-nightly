@@ -93,12 +93,12 @@ jobs:
           git branch -D publish
         fi
         git switch --orphan publish
-        cp -r ../oicq/* .
+        cp -r ../oicq/package/* .
         git add .
         git commit -m "Publish"
         git push -f origin publish
 
-        VERSION_STRING=$(jq -r ".version" package.json)
+        VERSION_STRING=$(jq -r ".version" ../oicq/package/package.json)
         VERSION_BRANCH="publish-${VERSION_STRING}"
         # if branch not exist
         if ! git rev-parse --verify $VERSION_BRANCH > /dev/null 2>&1; then
