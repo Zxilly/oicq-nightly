@@ -1,4 +1,4 @@
-name: "Compile"
+name: "Compile and Publish"
 
 on:
   workflow_dispatch:
@@ -23,11 +23,19 @@ jobs:
         node-version: 19
         registry-url: 'https://npm.pkg.github.com'
 
-    - name: Install dependencies
+    - name: Install global dependencies
+      run: sudo apt install moreutils jq
+
+    - name: Setup Github Packages
+      run: |
+        jq '.repository |= "https://github.com/Zxilly/oicq-nightly.git"' package.json | sponge package.json
+        COMMIT_SHA=$(git rev-parse --short HEAD)
+        jq ".version |= \"$COMMIT_SHA\"" package.json | sponge package.json
+
+    - name: Install project dependencies
       run: |
         npm install
         npm install -g typescript
-        sudo apt install moreutils jq
 
     - name: Build
       run: |
@@ -36,9 +44,7 @@ jobs:
         tsc
         set -e
 
-    - name: Setup Github Packages
-      run: |
-        jq '.repository |= "https://github.com/Zxilly/oicq-nightly.git"' package.json | sponge package.json
-
-    - name: Publish
-      run: npm publish
+    - name: Publish to Github Packages
+      run: npm publish --access public --registry https://npm.pkg.github.com
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
