@@ -2,7 +2,7 @@
 
 [![Compile and Publish](https://github.com/Zxilly/oicq-nightly/actions/workflows/build.yml/badge.svg)](https://github.com/Zxilly/oicq-nightly/actions/workflows/build.yml)
 
-编译 [oicq](https://github.com/takayama-lily/oicq) 每夜构建并发布到 [GitHub Packages](https://github.com/Zxilly/oicq-nightly/pkgs/npm/oicq) 和 `publish-x` 分支。
+编译 [oicq](https://github.com/takayama-lily/oicq) 每夜构建并发布到 [GitHub Packages](https://github.com/Zxilly/oicq-nightly/pkgs/npm/oicq)，Github Release 和 `publish-x` 分支。
 
 ## 使用方法
 
@@ -18,6 +18,14 @@ npm install github:Zxilly/oicq-nightly#publish
 
 ```bash
 npm install github:Zxilly/oicq-nightly#publish-2.3.1-30f2c56
+```
+
+### Github Release
+
+Github Release 也包含了每夜构建的最新版本
+
+```bash
+npm install github:Zxilly/oicq-nightly#v2.3.1
 ```
 
 ### Github Packages
