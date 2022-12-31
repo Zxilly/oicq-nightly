@@ -25,8 +25,16 @@ npm install github:Zxilly/oicq-nightly#publish-2.3.1-30f2c56
 Github Release 也包含了每夜构建的最新版本
 
 ```bash
-npm install github:Zxilly/oicq-nightly#v2.3.1
+npm install https://github.com/Zxilly/oicq-nightly/releases/download/latest/oicq.tgz
 ```
+
+同样的，如果你想使用特定的构建版本，可以使用 `oicq-x.x.x-<hash>.tgz`，其中 `x.x.x` 为构建版本号，`<hash>` 为 oicq 构建的 commit hash。
+
+```bash
+npm install https://github.com/Zxilly/oicq-nightly/releases/download/2.3.1-30f2c56/oicq-2.3.1-30f2c56.tgz
+```
+
+查看 [Release](https://github.com/Zxilly/oicq-nightly/releases) 来获得可用的选项。
 
 ### Github Packages
 
