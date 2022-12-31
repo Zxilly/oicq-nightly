@@ -52,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: oicq
-        path: oicq-*.tgz
+        path: zxilly-oicq-*.tgz
 
     - name: Publish to Github Packages
       run: npm publish --access public --registry https://npm.pkg.github.com || true # version may duplicate, just ignore
@@ -83,9 +83,9 @@ jobs:
     - name: Extract artifact
       working-directory: oicq
       run: |
-        tar -xzf oicq-*.tgz
-        rm oicq-*.tgz
-
+        tar -xzf zxilly-oicq-*.tgz
+        rm zxilly-oicq-*.tgz
+    
     - name: Cleanup and create
       working-directory: git-repo
       run: |
