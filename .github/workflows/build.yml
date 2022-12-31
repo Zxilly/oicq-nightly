@@ -102,6 +102,7 @@ jobs:
         VERSION_BRANCH="publish-${VERSION_STRING}"
         # if branch not exist
         if ! git rev-parse --verify $VERSION_BRANCH > /dev/null 2>&1; then
+          git switch --orphan $VERSION_BRANCH
           cp -r ../oicq/* .
           git add .
           git commit -m "Publish $VERSION_STRING"
