@@ -30,7 +30,9 @@ jobs:
       run: |
         jq '.repository |= "https://github.com/Zxilly/oicq-nightly.git"' package.json | sponge package.json
         COMMIT_SHA=$(git rev-parse --short HEAD)
-        jq ".version |= \"$COMMIT_SHA\"" package.json | sponge package.json
+        OLD_VERSION=$(jq -r ".version" package.json)
+        NEW_VERSION="${OLD_VERSION}-$COMMIT_SHA"
+        jq ".version |= \"$NEW_VERSION\"" package.json | sponge package.json
 
     - name: Install project dependencies
       run: |
